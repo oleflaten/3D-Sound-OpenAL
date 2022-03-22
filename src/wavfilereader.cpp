@@ -1,14 +1,12 @@
 #include "wavfilereader.h"
 #include <iostream>
-#include <cstdio>
 
 bool WavFileReader::loadWave(std::string filePath, wave_t* wavePtr)
 {
     std::cout << "Loading "+ filePath + " from disk\n";
-    FILE* fp;
-    errno_t error = fopen_s(&fp, filePath.c_str(), "rb"); //rb = read binary
-    if (error != 0)
-    {
+    FILE* fp = NULL;
+    fp = std::fopen(filePath.c_str(), "rb");
+    if (fp == NULL)    {
         return endOnError("FileHandler error: File not found.\n");
     }
 
