@@ -1,12 +1,13 @@
 #include "wavfilereader.h"
 #include <iostream>
+#include <cstdio>
 
 bool WavFileReader::loadWave(std::string filePath, wave_t* wavePtr)
 {
     std::cout << "Loading "+ filePath + " from disk\n";
-    FILE* fp = NULL;
-    fp = std::fopen(filePath.c_str(), "rb");
-    if (fp == NULL)
+    FILE* fp;
+    errno_t error = fopen_s(&fp, filePath.c_str(), "rb"); //rb = read binary
+    if (error != 0)
     {
         return endOnError("FileHandler error: File not found.\n");
     }
@@ -49,20 +50,21 @@ bool WavFileReader::loadWave(std::string filePath, wave_t* wavePtr)
     std::fread(&wavePtr->dataSize, sizeof(uint32_t), 1, fp);
 
     wavePtr->buffer = new unsigned char[wavePtr->dataSize];
-    uint32_t result = std::fread(wavePtr->buffer, sizeof(char), wavePtr->dataSize, fp);
+    //static_cast just to get rid of compiler warning
+    uint32_t result = static_cast<uint32_t>(std::fread(wavePtr->buffer, sizeof(char), wavePtr->dataSize, fp));
     if (result != wavePtr->dataSize)
     {
-        return endOnError("FileHandler error: fread result mismatch.\n");
+        return endOnError("Wav-file read error: fread result mismatch.\n");
     }
 
     if (ferror(fp))
     {
-        return endOnError("FileHandler error: fstream error.");
+        return endOnError("Wav-file read error: fstream error.");
     }
 
     if (wavePtr->buffer == NULL)
     {
-        return endOnError("FileHandler error: Wave Data pointer is NULL.\n");
+        return endOnError("Wav-file read error: Wave Data pointer is NULL.\n");
     }
 
     std::fclose(fp);
