@@ -4,22 +4,21 @@ TARGET = Sound
 CONFIG += console
 CONFIG -= qt
 
-INCLUDEPATH += .
-INCLUDEPATH += ./include
+INCLUDEPATH += . \
+    ./include
 
 HEADERS += \
-    include/vector3.h \
-    include/wavfilehandler.h \
     include/soundmanager.h \
-    include/soundsource.h
-
+    include/soundsource.h \
+    include/vector3.h \
+    include/wavfilereader.h
 
 SOURCES += \
-    src/vector3.cpp \
     src/main.cpp \
-    src/wavfilehandler.cpp \
     src/soundsource.cpp \
-    src/soundmanager.cpp
+    src/soundmanager.cpp \
+    src/vector3.cpp \
+    src/wavfilereader.cpp
 
 #Set up dependencies
 mac {

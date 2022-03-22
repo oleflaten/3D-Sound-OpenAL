@@ -10,17 +10,26 @@
 int main()
 {
     //Some sounds...
-    SoundSource* mExplosionSound{};
-    SoundSource* mLaserSound{};
-    SoundSource* mStereoSound{};
-    SoundSource* mSong{};
+    SoundSource* mExplosionSound{nullptr};
+    SoundSource* mLaserSound{nullptr};
+    SoundSource* mStereoSound{nullptr};
+    SoundSource* mSong{nullptr};
 
     //makes the soundmanager
     //it is a Singleton!!!
     SoundManager::getInstance()->init();
 
+    //placing the listener:
+    Vector3 pos(0.0f, 0.0f, 0.0f);  //at world origo
+    Vector3 vel(0.0f, 0.0f, 0.0f);  //no velocity
+    Vector3 dir(0.0f, 0.0f, -1.0f); //direction into the screen (openal uses right hand axis)
+    Vector3 up(0.0f, 1.0f, 0.0f);   //Y is up
+
+    //set the listener position
+    SoundManager::getInstance()->updateListener(pos, vel, dir, up);
+
     //loads the sounds
-    //Vector - placement - no effect on stereo sound
+    //Vector - placement - no effect on stereo sounds
     //parameters:
     //createSource(std::string name, Vector3 pos, std::string filePath, bool loop, float gain)
     mExplosionSound = SoundManager::getInstance()->createSource(
@@ -28,90 +37,88 @@ int main()
                 "../Sound/Assets/explosion.wav", false, 1.0f);
     mLaserSound = SoundManager::getInstance()->createSource(
                 "Laser", Vector3(20.0f, 0.0f, 0.0f),
-                "../Sound/Assets/laser.wav", true, 0.7f);
+                "../Sound/Assets/laser.wav", true, 0.4f);
 
     mStereoSound = SoundManager::getInstance()->createSource(
-                "Stereo", Vector3(0.0f, 0.0f, 0.0f),
+                "Stereo", Vector3(),
                 "../Sound/Assets/stereo.wav", false, 1.0f);
 
     mSong = SoundManager::getInstance()->createSource(
-                "Caravan", Vector3(0.0f, 0.0f, 0.0f),
+                "Caravan", Vector3(),
                 "../Sound/Assets/Caravan_mono.wav", false, 1.0f);
 
-    //plays the sounds
+
+    //1. Stereo sounds can not be moved ******************************
+    std::cout << "\nPlaying stereo wav file - positioning have no effect\n";
     mStereoSound->play();
+    //this does not have any effect, because the source is stereo
     mStereoSound->setPosition(Vector3(200.0f, 30.0f, -1000.0f));
     std::this_thread::sleep_for(std::chrono::milliseconds(2500));
+
+    //2. Mono sounds can be positioned ******************************
+    std::cout << "\nPlaying Explotion sound at position 10 to the right:\n";
     mExplosionSound->play();
-    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
-    mLaserSound->play();
+    std::this_thread::sleep_for(std::chrono::milliseconds(2500));
 
-    //placing the listener:
-    Vector3 pos(0.0f, 0.0f, 0.0f);
-    Vector3 vel(0.0f, 0.0f, 0.0f);
-    Vector3 dir(0.0f, 0.0f, -1.0f);
-    Vector3 up(0.0f, 1.0f, 0.0f);
-
-    //set the listener position
-    SoundManager::getInstance()->updateListener(pos, vel, dir, up);
-
-    //vector for source placement
+    //vector for source placement in next test
     Vector3 sourceVec3;
 
+    //3. Playing looping sound and moving it from left to right ********************
+    std::cout << "\nPlaying looping Laser sound\n";
+    mLaserSound->play();
+
     //pans the lazer sound across the speakers
-    std::cout << "\nMoves sound from left to right\n";
-    for (float f = -5.0f; f < 5.0f; f += 0.1f)
+    std::cout << "\nMoving Laser sound from left to right\n";
+    for (float location = -5.0f; location < 5.0f; location += 0.1f)
     {
-        sourceVec3.x = f;
+        sourceVec3.x = location;
         mLaserSound->setPosition(sourceVec3);
 
-        std::cout << f << " ";
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-
-    //resets vector for next test
-    sourceVec3.x = 0.0f;
-    sourceVec3.y = 0.0f;
-    sourceVec3.z = 0.0f;
-    //resets lazer position for next test
-    mLaserSound->setPosition(sourceVec3);
-
-    //moves listener around test
-    std::cout << "\n\nMoves listener from -5 left to 5 right\n";
-    std::cout << "Sound is at 0,0,0\n";
-    for (float f = -5.0f; f < 5.0f; f += 0.1f)
-    {
-        sourceVec3.x = f;
-        SoundManager::getInstance()->updateListener(sourceVec3, vel, dir, up);
-
-        std::cout << f << " ";
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::cout << location << " ";
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
     mLaserSound->stop();
 
-    //saves pos for next test:
-    pos = sourceVec3;
-
     //resets vector for next test
-    sourceVec3.x = 0.0f;
-    sourceVec3.y = 0.0f;
-    sourceVec3.z = 0.0f;
+    sourceVec3 = Vector3();
 
+
+    //4. Moving the listener gives similar effect ***********************************
     mSong->play();
 
-    //rotates listener around
-    std::cout << "\n\nRotates listener from up to down\n";
+    //moving the listener
+    std::cout << "\n\nMoving listener from -5 left to 5 right\n";
     std::cout << "Sound is at 0,0,0\n";
-    std::cout << "Listener is at 5,0,0\n";
-    for (float f = 1.0f; f > -1.1f; f -= 0.01f)
-    {
-        sourceVec3.y = f;
-        SoundManager::getInstance()->updateListener(pos, vel, dir, sourceVec3);
 
-        std::cout << f << " ";
+    for (float location = -5.0f; location < 5.0f; location += 0.1f)
+    {
+        sourceVec3.x = location;
+        SoundManager::getInstance()->updateListener(sourceVec3, vel, dir, up);
+
+        std::cout << location << " ";
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    //resets vector for next test
+    sourceVec3 = Vector3();
+
+    //5. Giving the listener (or source) velocity will give Doppler effect ****************
+    std::cout << "\n\nMoving listener from 5 right to -5 left \n";
+    std::cout << "with velocity, giving Doppler effect\n";
+    vel = Vector3(-15.0f, 0.0f, 0.0f);  //no velocity
+    std::cout << "Sound is at 0,0,0\n";
+
+    for (float location = 5.0f; location > -5.f; location -= 0.1f)
+    {
+        sourceVec3.x = location;
+        SoundManager::getInstance()->updateListener(sourceVec3, vel, dir, up);
+
+        std::cout << location << " ";
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
+
+    std::this_thread::sleep_for(std::chrono::seconds(4));
 
     //Must cleanly shut down the soundmanager
     SoundManager::getInstance()->cleanUp();

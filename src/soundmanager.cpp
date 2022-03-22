@@ -1,5 +1,5 @@
 #include "soundmanager.h"
-#include "wavfilehandler.h"
+#include "wavfilereader.h"
 #include <iostream>
 
 SoundManager* SoundManager::mInstance = NULL;
@@ -7,9 +7,7 @@ SoundManager* SoundManager::mInstance = NULL;
 SoundManager::SoundManager() :
     mDevice(NULL),
     mContext(NULL)
-{
-
-}
+{ }
 
 bool SoundManager::init()
 {

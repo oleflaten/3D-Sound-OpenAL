@@ -6,11 +6,9 @@
 
 class Vector3
 {
-//Variables - should probably not be public
 public:
     float x, y, z;
 
-public:
     Vector3(float, float, float);
     Vector3();
 };
