@@ -30,5 +30,12 @@
 *.exe
 *.out
 *.app
+
+# temp files
 .DS_Store
 Sound.pro.user
+
+# allow binary files from ./openal folder
+!openal/dlls/*
+!openal/libs/*
+

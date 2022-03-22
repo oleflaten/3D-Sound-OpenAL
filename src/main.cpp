@@ -116,5 +116,6 @@ int main()
     //Must cleanly shut down the soundmanager
     SoundManager::getInstance()->cleanUp();
 
+    std::cout << "\n ****Program finished****\n";
     return 0;
 }
