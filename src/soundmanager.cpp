@@ -86,6 +86,7 @@ SoundSource* SoundManager::createSource(std::string name, Vector3 pos, std::stri
 
 void SoundManager::updateListener(Vector3 pos, Vector3 vel, Vector3 dir, Vector3 up)
 {
+    //Have to convert Vector3 floats to ALfloats
     ALfloat posVec[3];
     ALfloat velVec[3];
     ALfloat headVec[6];

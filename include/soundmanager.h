@@ -62,6 +62,7 @@ public:
         \param Boolean to see if sound should loop or not.
     **/
     SoundSource* createSource(std::string name, Vector3 pos, std::string filePath = "", bool loop = false, float gain = 1.0);
+
     void updateListener(Vector3 pos, Vector3 vel, Vector3 dir, Vector3 up);
 
 private:
@@ -75,8 +76,8 @@ private:
     **/
     bool checkError();
 
-    ALCdevice* mDevice;                 ///< Pointer to the ALC Device.
-    ALCcontext* mContext;               ///< Pointer to the ALC Context.
+    ALCdevice* mDevice{nullptr};                 ///< Pointer to the ALC Device.
+    ALCcontext* mContext{nullptr};               ///< Pointer to the ALC Context.
 
     SoundListener mListener;               ///< The listener data structure. (Temporary)
 };
