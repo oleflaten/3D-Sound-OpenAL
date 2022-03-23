@@ -34,18 +34,18 @@ int main()
     //createSource(std::string name, Vector3 pos, std::string filePath, bool loop, float gain)
     mExplosionSound = SoundManager::getInstance()->createSource(
                 "Explosion", Vector3(10.0f, 0.0f, 0.0f),
-                "../Sound/Assets/explosion.wav", false, 1.0f);
+                "../3D-Sound-OpenAL/Assets/explosion.wav", false, 1.0f);
     mLaserSound = SoundManager::getInstance()->createSource(
                 "Laser", Vector3(20.0f, 0.0f, 0.0f),
-                "../Sound/Assets/laser.wav", true, 0.4f);
+                "../3D-Sound-OpenAL/Assets/laser.wav", true, 0.4f);
 
     mStereoSound = SoundManager::getInstance()->createSource(
                 "Stereo", Vector3(),
-                "../Sound/Assets/stereo.wav", false, 1.0f);
+                "../3D-Sound-OpenAL/Assets/stereo.wav", false, 1.0f);
 
     mSong = SoundManager::getInstance()->createSource(
                 "Caravan", Vector3(),
-                "../Sound/Assets/Caravan_mono.wav", false, 1.0f);
+                "../3D-Sound-OpenAL/Assets/Caravan_mono.wav", false, 1.0f);
 
 
     //1. Stereo sounds can not be moved ******************************
