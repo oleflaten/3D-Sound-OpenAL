@@ -39,3 +39,4 @@ Sound.pro.user
 !openal/dlls/*
 !openal/libs/*
 
+/build
