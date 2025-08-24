@@ -2,8 +2,8 @@
 #define SOUNDMANAGER_H
 
 #ifdef _WIN32
-#include <al.h>
-#include <alc.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 #endif
 #ifdef __APPLE__
 #include <OpenAL/al.h>

@@ -9,6 +9,9 @@
 
 int main()
 {
+	//The location of the .wav files
+	const std::string ASSET_PATH = "../../Assets/"; // "../../../Assets/" if compided with Visual Studio
+
     //Some sounds...
     SoundSource* mExplosionSound{nullptr};
     SoundSource* mLaserSound{nullptr};
@@ -34,18 +37,18 @@ int main()
     //createSource(std::string name, Vector3 pos, std::string filePath, bool loop, float gain)
     mExplosionSound = SoundManager::getInstance()->createSource(
                 "Explosion", Vector3(10.0f, 0.0f, 0.0f),
-                "../../Assets/explosion.wav", false, 1.0f);
+                ASSET_PATH + "explosion.wav", false, 1.0f);
     mLaserSound = SoundManager::getInstance()->createSource(
                 "Laser", Vector3(20.0f, 0.0f, 0.0f),
-                "../../Assets/laser.wav", true, 0.4f);
+                ASSET_PATH + "laser.wav", true, 0.4f);
 
     mStereoSound = SoundManager::getInstance()->createSource(
                 "Stereo", Vector3(),
-                "../../Assets/stereo.wav", false, 1.0f);
+                ASSET_PATH + "stereo.wav", false, 1.0f);
 
     mSong = SoundManager::getInstance()->createSource(
                 "Caravan", Vector3(),
-                "../../Assets/Caravan_mono.wav", false, 1.0f);
+                ASSET_PATH + "Caravan_mono.wav", false, 1.0f);
 
 
     //1. Stereo sounds can not be moved ******************************

@@ -48,3 +48,4 @@ Sound.pro.user
 *.qtvscr
 *.filters
 *.user
+/out
