@@ -22,46 +22,27 @@ set(SOURCES
 
 add_executable(Sound ${SOURCES} ${HEADERS})
 
-# Must be after add_executable()
-# This makes it possible to include the projects .h files without the folder name
-target_include_directories(Sound PRIVATE
-    include
-)
+target_include_directories(Sound PRIVATE include)
 
+if(APPLE)
+    # Explicitly force Homebrew's openal-soft headers and dynamic library
+    target_include_directories(Sound PRIVATE /opt/homebrew/opt/openal-soft/include)
+    target_link_libraries(Sound PRIVATE /opt/homebrew/opt/openal-soft/lib/libopenal.dylib)
+elseif(MSVC)
+    target_include_directories(Sound PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/openal/include
+    )
+    target_link_libraries(Sound PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/openal/lib/OpenAL32.lib
+    )
 
-# Adding External library:
-# ----------------
-# ********* Using Windows environment variable: **********:
-
-# Add include directory
-#target_include_directories(Sound PRIVATE
-#    $ENV{OPENAL_HOME}/include
-#)
-# Add lib directory
-#target_link_libraries(Sound PRIVATE
-#    $ENV{OPENAL_HOME}/libs/Win64/libOpenAL32.dll.a  # could be OpenAL32.lib)
-#)
-
-# Using the version that is included with the project:
-# Add include directory
-target_include_directories(Sound PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/openal/include
-)
-# Add lib directory
-target_link_libraries(Sound PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/openal/lib/OpenAL32.lib
-)
-
-# ----------------
-
-
-# Copy the DLL after build
-# This makes the .exe use the correct .dll from the library we compile to
-# (the "COMMAND echo" only works on Windows)
-add_custom_command(TARGET Sound POST_BUILD
-    #COMMAND echo Copying OpenAL32.dll...
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_CURRENT_SOURCE_DIR}/openal/bin/OpenAL32.dll #Using the version that is included with the project
-        #$ENV{OPENAL_HOME}/bin/Win64/OpenAL32.dll           #Windows environment variable version
-        $<TARGET_FILE_DIR:Sound>
-)
+    add_custom_command(TARGET Sound POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_CURRENT_SOURCE_DIR}/openal/bin/OpenAL32.dll
+            $<TARGET_FILE_DIR:Sound>
+    )
+else()
+    find_package(OpenAL REQUIRED)
+    target_include_directories(Sound PRIVATE ${OPENAL_INCLUDE_DIR})
+    target_link_libraries(Sound PRIVATE ${OPENAL_LIBRARY})
+endif()

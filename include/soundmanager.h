@@ -1,17 +1,10 @@
 #ifndef SOUNDMANAGER_H
 #define SOUNDMANAGER_H
 
-#ifdef _WIN32
 #include <AL/al.h>
 #include <AL/alc.h>
-#endif
-#ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#endif
 
 #include <string>
-#include <vector>
 #include "soundsource.h"
 #include "vector3.h"
 

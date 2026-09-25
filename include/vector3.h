@@ -2,7 +2,7 @@
 #define VECTOR3_H
 
 ///Way to simple vector3 class for soundsystem.
-///This needs a lot of work to make it robust.
+///You should probably use something else!
 
 class Vector3
 {

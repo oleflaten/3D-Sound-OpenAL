@@ -1,14 +1,8 @@
 #ifndef SOUNDSOURCE_H
 #define SOUNDSOURCE_H
 
-#ifdef _WIN32
 #include <AL/al.h>
 #include <AL/alc.h>
-#endif
-#ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#endif
 
 #include <string>
 #include "vector3.h"
