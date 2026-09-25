@@ -10,7 +10,7 @@
 int main()
 {
 	//The location of the .wav files
-	const std::string ASSET_PATH = "../../Assets/"; // "../../../Assets/" if compided with Visual Studio
+    const std::string ASSET_PATH = "../../Assets/"; // "../../../Assets/" if compiled with Visual Studio
 
     //Some sounds...
     SoundSource* mExplosionSound{nullptr};
@@ -20,6 +20,7 @@ int main()
 
     //makes the soundmanager
     //it is a Singleton!!!
+    //This will create the OpenAL device and context
     SoundManager::getInstance()->init();
 
     //placing the listener:

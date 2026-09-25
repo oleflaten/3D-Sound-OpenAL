@@ -10,8 +10,9 @@
 /// One sound source.
 /**
     Contains one source and one buffer.
+    The buffer could be shared between several sources, but this class does not support that.
     Intended to play a single clip.
-    Does not support streaming audio (yet).
+    Does not support streaming audio.
 **/
 class SoundSource
 {

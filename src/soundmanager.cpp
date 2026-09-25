@@ -1,5 +1,4 @@
 #include "soundmanager.h"
-#include "wavfilereader.h"
 #include <iostream>
 
 SoundManager* SoundManager::mInstance = NULL;
@@ -19,7 +18,6 @@ bool SoundManager::init()
         alcMakeContextCurrent(mContext);
     }
 
-    // Generate buffers
     alGetError();
 
     if (!mDevice)
@@ -30,7 +28,7 @@ bool SoundManager::init()
         std::cout << "Intialization complete!\n";
 
     //Start listing of found sound devices:
-    //Not jet implemented
+    //Not yet implemented
     //ALDeviceList *pDeviceList = NULL;
     //ALCcontext *pContext = NULL;
     //ALCdevice *pDevice = NULL;
