@@ -7,4 +7,5 @@ The project includes a release compiled version of https://github.com/kcat/opena
 
 openal-soft is compiled with MSVC from Visual Studio 2019.
 
-1 - the included openal and the cmake-file is configured for Windows only, so small tweaks has to be done for Mac.
+1 - the cmake-file is configured on Mac for openal-soft version you get from "brew install openal-soft".
+OpenAL used to be included on Mac, but is broken on newer MacOS versions.
